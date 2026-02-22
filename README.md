@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+IOT WATER MONITORING DASHBOARD
 
-## Getting Started
+A real-time industrial-style monitoring dashboard built with Next.js and
+TypeScript.
 
-First, run the development server:
+FEATURES
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-   Battery Health Monitoring
+-   Animated Charging Effect with Lightning Icon
+-   Water Pump Animation (ON/OFF)
+-   Main Tank & Sump Tank Water Level Visualization
+-   Floating Switch LOW Alert Indicator
+-   Signal Strength Monitoring
+-   Real-time updates using Firebase Realtime Database
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+TECH STACK
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   Next.js 15 (App Router)
+-   TypeScript
+-   Firebase Realtime Database
+-   Custom CSS Animations
+-   WebSocket-based Real-time Updates
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+PROJECT STRUCTURE
 
-## Learn More
+app/ layout.tsx page.tsx globals.css
 
-To learn more about Next.js, take a look at the following resources:
+components/ Dashboard.tsx BatteryCard.tsx WaterPumpCard.tsx
+WaterTankSystem.tsx
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+lib/ firebase.ts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+types/ dashboard.ts
 
-## Deploy on Vercel
+INSTALLATION
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.  Clone the repository
+2.  Run: npm install
+3.  Run: npm run dev
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ENVIRONMENT VARIABLES
+
+Create a .env.local file:
+
+NEXT_PUBLIC_FIREBASE_API_KEY=YOUR_FIREBASE_API_KEY
+NEXT_PUBLIC_FIREBASE_DATABASE_URL=YOUR_DATABASE_URL
+
+EXAMPLE DATABASE STRUCTURE
+
+{ “battery”: { “charging_mode”: “Charging”, “current”: 7.35, “soc”: 92
+}, “control”: { “vfd_command”: “ON” }, “water_system”: {
+“communication”: “Connected”, “main_level”: 87.4, “sump_level”: 143.7,
+“floating_switch”: “LOW”, “signal_strength”: -69 } }
+
+USE CASES
+
+-   Smart Water Management Systems
+-   IoT Tank Monitoring
+-   Solar + Battery Monitoring
+-   Remote Pump Automation
+-   Lightweight SCADA-style Dashboard
+
+FUTURE IMPROVEMENTS
+
+-   Historical Data Charts
+-   SMS / Email Alerts
+-   Authentication & Role-Based Access
+-   Multi-site Monitoring
+-   Mobile Responsive Enhancements
+
+Built with Next.js and Firebase.
