@@ -1,0 +1,621 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background:
+    radial-gradient(at 0% 0%, hsla(200, 100%, 95%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(210, 100%, 98%, 1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(190, 100%, 92%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 100%, hsla(210, 50%, 92%, 1) 0, transparent 50%),
+    #ffffff;
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+/* ================= BATTERY CARD ================= */
+
+.battery-container {
+  background: #111827;
+  color: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 380px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.battery-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.battery-body {
+  width: 260px;
+  height: 90px;
+  border: 4px solid white;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.battery-level {
+  height: 100%;
+  transition: width 0.6s ease-in-out;
+  position: relative;
+}
+
+/* Colors */
+.green {
+  background: #22c55e;
+}
+
+.yellow {
+  background: #facc15;
+}
+
+.red {
+  background: #ef4444;
+}
+
+/* Battery cap */
+.battery-cap {
+  width: 22px;
+  height: 45px;
+  background: white;
+  margin-left: 5px;
+  border-radius: 4px;
+}
+
+/* Lightning icon */
+.lightning {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 36px;
+  animation: pulse 1s infinite;
+}
+
+/* Charging wave */
+.charging-wave::after {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(120deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 70%);
+  animation: wave 2s linear infinite;
+}
+
+/* Charging text */
+.charging-text {
+  color: #22c55e;
+}
+
+.not-charging {
+  color: #ef4444;
+}
+
+/* Animations */
+@keyframes wave {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+
+  100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ================= WATER PUMP ================= */
+
+.pump-container {
+  background: #0f172a;
+  color: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 380px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.pump-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Pump Body */
+.pump-body {
+  width: 100px;
+  height: 100px;
+  background: #1e293b;
+  border-radius: 50%;
+  border: 6px solid #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Fan Blade */
+.pump-fan {
+  width: 60px;
+  height: 60px;
+  background: conic-gradient(#38bdf8 0deg 90deg,
+      transparent 90deg 180deg,
+      #38bdf8 180deg 270deg,
+      transparent 270deg 360deg);
+  border-radius: 50%;
+}
+
+/* Spin animation */
+.spin {
+  animation: rotatePump 1s linear infinite;
+}
+
+/* Pipe */
+.pipe {
+  width: 200px;
+  height: 20px;
+  background: #334155;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Water Flow */
+.water-flow {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      #38bdf8,
+      transparent);
+  animation: waterMove 1s linear infinite;
+}
+
+/* Status Colors */
+.pump-on {
+  color: #22c55e;
+  margin-top: 15px;
+}
+
+.pump-off {
+  color: #ef4444;
+  margin-top: 15px;
+}
+
+/* Animations */
+@keyframes rotatePump {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes waterMove {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
+
+/* Toggle Switch */
+.toggle-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.toggle-group:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #334155;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked+.slider {
+  background-color: #22c55e;
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #22c55e;
+}
+
+input:checked+.slider:before {
+  transform: translateX(24px);
+}
+
+/* ================= WATER SYSTEM ================= */
+
+.water-container {
+  background: #0f172a;
+  color: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.status-green {
+  color: #22c55e;
+}
+
+.status-red {
+  color: #ef4444;
+}
+
+/* Tanks */
+.tank-wrapper {
+  display: flex;
+  gap: 40px;
+  margin: 20px 0;
+}
+
+.tank {
+  text-align: center;
+}
+
+.tank-body {
+  width: 80px;
+  height: 160px;
+  border: 3px solid white;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.tank-water {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(180deg,
+      #38bdf8,
+      #0ea5e9);
+  transition: height 0.8s ease-in-out;
+  animation: waterWave 2s infinite linear;
+}
+
+@keyframes waterWave {
+  0% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.2);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
+}
+
+/* Signal bars */
+.signal-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.signal-bars {
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+}
+
+.bar {
+  width: 8px;
+  background: #334155;
+  border-radius: 3px;
+}
+
+.bar:nth-child(1) {
+  height: 10px;
+}
+
+.bar:nth-child(2) {
+  height: 18px;
+}
+
+.bar:nth-child(3) {
+  height: 26px;
+}
+
+.bar:nth-child(4) {
+  height: 34px;
+}
+
+.bar-active {
+  background: #22c55e;
+}
+
+/* ====== TANK SYSTEM ====== */
+
+.tank-system-container {
+  background: #0f172a;
+  color: white;
+  padding: 40px;
+  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.top-status {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.status-green {
+  color: #22c55e;
+}
+
+.status-red {
+  color: #ef4444;
+}
+
+.tank-row {
+  display: flex;
+  gap: 80px;
+  align-items: flex-end;
+  justify-content: center;
+  flex: 1;
+}
+
+/* Tank Block */
+.tank-block {
+  text-align: center;
+}
+
+/* Tank Body */
+.tank-body {
+  position: relative;
+  border: 4px solid #94a3b8;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #1e293b;
+}
+
+.tank-body.large {
+  width: 150px;
+  height: 300px;
+}
+
+.tank-body.small {
+  width: 110px;
+  height: 220px;
+}
+
+/* Water */
+.tank-water {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(180deg,
+      #38bdf8,
+      #0ea5e9);
+  transition: height 1s ease-in-out;
+  animation: waterGlow 2s infinite alternate;
+}
+
+/* Floating switch indicator */
+.float-indicator {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  text-align: center;
+  color: #ef4444;
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+
+/* Animations */
+@keyframes waterGlow {
+  from {
+    filter: brightness(1);
+  }
+
+  to {
+    filter: brightness(1.3);
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ================= SPINNER ================= */
+
+.spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px) saturate(180%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  transition: all 0.3s ease;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  display: grid;
+  border: 4.5px solid #0000;
+  border-radius: 50%;
+  border-right-color: #38bdf8;
+  animation: spinner-rotate 1s infinite linear;
+}
+
+.spinner::before,
+.spinner::after {
+  content: "";
+  grid-area: 1/1;
+  margin: 2.2px;
+  border: inherit;
+  border-radius: 50%;
+  animation: spinner-rotate 2s infinite;
+}
+
+.spinner::after {
+  margin: 8.9px;
+  animation-duration: 3s;
+}
+
+@keyframes spinner-rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+.loading-text {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: pulse-text 2s infinite ease-in-out;
+}
+
+@keyframes pulse-text {
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
