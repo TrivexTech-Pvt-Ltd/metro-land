@@ -1,19 +1,23 @@
-IOT WATER MONITORING DASHBOARD
+# 🚰 IoT Water Monitoring Dashboard
 
-A real-time industrial-style monitoring dashboard built with Next.js and
-TypeScript.
+A real-time industrial-style monitoring dashboard built with **Next.js
+15 + TypeScript**.
 
-FEATURES
+------------------------------------------------------------------------
 
--   Battery Health Monitoring
--   Animated Charging Effect with Lightning Icon
--   Water Pump Animation (ON/OFF)
--   Main Tank & Sump Tank Water Level Visualization
--   Floating Switch LOW Alert Indicator
--   Signal Strength Monitoring
--   Real-time updates using Firebase Realtime Database
+## 🔥 Features
 
-TECH STACK
+-   🔋 Battery Health Monitoring with Charging Animation
+-   ⚡ Lightning Icon when Charging
+-   🚰 Animated Water Pump (ON/OFF)
+-   💧 Main Tank & Sump Tank Level Visualization
+-   🚨 Floating Switch LOW Alert Indicator
+-   📡 Signal Strength Monitoring
+-   🌐 Real-time updates using Firebase Realtime Database
+
+------------------------------------------------------------------------
+
+## 🛠 Tech Stack
 
 -   Next.js 15 (App Router)
 -   TypeScript
@@ -21,38 +25,74 @@ TECH STACK
 -   Custom CSS Animations
 -   WebSocket-based Real-time Updates
 
-PROJECT STRUCTURE
+------------------------------------------------------------------------
 
-app/ layout.tsx page.tsx globals.css
+## 📂 Project Structure
 
-components/ Dashboard.tsx BatteryCard.tsx WaterPumpCard.tsx
-WaterTankSystem.tsx
+    app/
+      layout.tsx
+      page.tsx
+      globals.css
 
-lib/ firebase.ts
+    components/
+      Dashboard.tsx
+      BatteryCard.tsx
+      WaterPumpCard.tsx
+      WaterTankSystem.tsx
 
-types/ dashboard.ts
+    lib/
+      firebase.ts
 
-INSTALLATION
+    types/
+      dashboard.ts
 
-1.  Clone the repository
-2.  Run: npm install
-3.  Run: npm run dev
+------------------------------------------------------------------------
 
-ENVIRONMENT VARIABLES
+## 🚀 Installation
 
-Create a .env.local file:
+``` bash
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+cd YOUR_REPO
+npm install
+npm run dev
+```
 
-NEXT_PUBLIC_FIREBASE_API_KEY=YOUR_FIREBASE_API_KEY
-NEXT_PUBLIC_FIREBASE_DATABASE_URL=YOUR_DATABASE_URL
+------------------------------------------------------------------------
 
-EXAMPLE DATABASE STRUCTURE
+## 🔐 Environment Variables
 
-{ “battery”: { “charging_mode”: “Charging”, “current”: 7.35, “soc”: 92
-}, “control”: { “vfd_command”: “ON” }, “water_system”: {
-“communication”: “Connected”, “main_level”: 87.4, “sump_level”: 143.7,
-“floating_switch”: “LOW”, “signal_strength”: -69 } }
+Create a `.env.local` file:
 
-USE CASES
+    NEXT_PUBLIC_FIREBASE_API_KEY=YOUR_FIREBASE_API_KEY
+    NEXT_PUBLIC_FIREBASE_DATABASE_URL=YOUR_DATABASE_URL
+
+------------------------------------------------------------------------
+
+## 📊 Example Database Structure
+
+``` json
+{
+  "battery": {
+    "charging_mode": "Charging",
+    "current": 7.35,
+    "soc": 92
+  },
+  "control": {
+    "vfd_command": "ON"
+  },
+  "water_system": {
+    "communication": "Connected",
+    "main_level": 87.4,
+    "sump_level": 143.7,
+    "floating_switch": "LOW",
+    "signal_strength": -69
+  }
+}
+```
+
+------------------------------------------------------------------------
+
+## 🏭 Use Cases
 
 -   Smart Water Management Systems
 -   IoT Tank Monitoring
@@ -60,12 +100,18 @@ USE CASES
 -   Remote Pump Automation
 -   Lightweight SCADA-style Dashboard
 
-FUTURE IMPROVEMENTS
+------------------------------------------------------------------------
 
--   Historical Data Charts
--   SMS / Email Alerts
--   Authentication & Role-Based Access
--   Multi-site Monitoring
--   Mobile Responsive Enhancements
+## 🚧 Future Improvements
 
-Built with Next.js and Firebase.
+-   📊 Historical Data Charts
+-   🚨 SMS / Email Alerts
+-   🔐 Authentication & Role-Based Access
+-   🌍 Multi-site Monitoring
+-   📱 Mobile Responsive Layout
+
+------------------------------------------------------------------------
+
+## 👨‍💻 Built With
+
+Next.js + TypeScript + Firebase
