@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚰 IoT Water Monitoring Dashboard
 
-## Getting Started
+A real-time industrial-style monitoring dashboard built with **Next.js
+15 + TypeScript**.
 
-First, run the development server:
+------------------------------------------------------------------------
 
-```bash
+## 🔥 Features
+
+-   🔋 Battery Health Monitoring with Charging Animation
+-   ⚡ Lightning Icon when Charging
+-   🚰 Animated Water Pump (ON/OFF)
+-   💧 Main Tank & Sump Tank Level Visualization
+-   🚨 Floating Switch LOW Alert Indicator
+-   📡 Signal Strength Monitoring
+-   🌐 Real-time updates using Firebase Realtime Database
+
+------------------------------------------------------------------------
+
+## 🛠 Tech Stack
+
+-   Next.js 15 (App Router)
+-   TypeScript
+-   Firebase Realtime Database
+-   Custom CSS Animations
+-   WebSocket-based Real-time Updates
+
+------------------------------------------------------------------------
+
+## 📂 Project Structure
+
+    app/
+      layout.tsx
+      page.tsx
+      globals.css
+
+    components/
+      Dashboard.tsx
+      BatteryCard.tsx
+      WaterPumpCard.tsx
+      WaterTankSystem.tsx
+
+    lib/
+      firebase.ts
+
+    types/
+      dashboard.ts
+
+------------------------------------------------------------------------
+
+## 🚀 Installation
+
+``` bash
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+cd YOUR_REPO
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+------------------------------------------------------------------------
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔐 Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file:
 
-## Learn More
+    NEXT_PUBLIC_FIREBASE_API_KEY=YOUR_FIREBASE_API_KEY
+    NEXT_PUBLIC_FIREBASE_DATABASE_URL=YOUR_DATABASE_URL
 
-To learn more about Next.js, take a look at the following resources:
+------------------------------------------------------------------------
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📊 Example Database Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+``` json
+{
+  "battery": {
+    "charging_mode": "Charging",
+    "current": 7.35,
+    "soc": 92
+  },
+  "control": {
+    "vfd_command": "ON"
+  },
+  "water_system": {
+    "communication": "Connected",
+    "main_level": 87.4,
+    "sump_level": 143.7,
+    "floating_switch": "LOW",
+    "signal_strength": -69
+  }
+}
+```
 
-## Deploy on Vercel
+------------------------------------------------------------------------
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🏭 Use Cases
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   Smart Water Management Systems
+-   IoT Tank Monitoring
+-   Solar + Battery Monitoring
+-   Remote Pump Automation
+-   Lightweight SCADA-style Dashboard
+
+------------------------------------------------------------------------
+
+## 🚧 Future Improvements
+
+-   📊 Historical Data Charts
+-   🚨 SMS / Email Alerts
+-   🔐 Authentication & Role-Based Access
+-   🌍 Multi-site Monitoring
+-   📱 Mobile Responsive Layout
+
+------------------------------------------------------------------------
+
+## 👨‍💻 Built With
+
+Next.js + TypeScript + Firebase
