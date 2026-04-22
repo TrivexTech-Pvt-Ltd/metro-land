@@ -1,25 +1,32 @@
 "use client";
 
 interface Props {
-  communication: string;
-  mainLevel: number;
-  sumpLevel: number;
-  floatingSwitch: string;
+  communicationStatus: string;
   signalStrength: number;
+  mainCapacity: number;
+  mainPercentage: number;
+  mainFloat: string;
+  mainWaterLevel: string;
+  sumpCapacity: number;
+  sumpPercentage: number;
+  sumpWaterLevel: string;
+  sumpMotorStatus: string;
 }
 
 export default function WaterSystemCard({
-  communication,
-  mainLevel,
-  sumpLevel,
-  floatingSwitch,
+  communicationStatus,
   signalStrength,
+  mainCapacity,
+  mainPercentage,
+  mainFloat,
+  mainWaterLevel,
+  sumpCapacity,
+  sumpPercentage,
+  sumpWaterLevel,
+  sumpMotorStatus,
 }: Props) {
-  const isConnected = communication === "Connected";
-  const isLow = floatingSwitch === "LOW";
-
-  const mainPercent = Math.min((mainLevel / 200) * 100, 100);
-  const sumpPercent = Math.min((sumpLevel / 200) * 100, 100);
+  const isConnected = communicationStatus === "Connected";
+  const isMainLow = mainFloat === "LOW";
 
   return (
     <div className="tank-system-container">
@@ -28,7 +35,7 @@ export default function WaterSystemCard({
       {/* Status Bar */}
       <div className="top-status">
         <span className={isConnected ? "status-green ml-3" : "status-red ml-3"}>
-          ● {communication}
+          ● {communicationStatus}
         </span>
         <span>📡 {signalStrength} dBm</span>
       </div>
@@ -39,14 +46,15 @@ export default function WaterSystemCard({
           <div className="tank-body large">
             <div
               className="tank-water"
-              style={{ height: `${mainPercent}%` }}
+              style={{ height: `${mainPercentage}%` }}
             />
-            {isLow && (
+            {isMainLow && (
               <div className="float-indicator">⚠ LOW</div>
             )}
           </div>
           <p>Main Tank</p>
-          <p>{mainLevel} L</p>
+          <p>{mainCapacity.toFixed(0)} L</p>
+          <p className="text-xs text-slate-400">{mainWaterLevel} · {mainPercentage}%</p>
         </div>
 
         {/* SUMP TANK */}
@@ -54,11 +62,18 @@ export default function WaterSystemCard({
           <div className="tank-body small">
             <div
               className="tank-water"
-              style={{ height: `${sumpPercent}%` }}
+              style={{ height: `${sumpPercentage}%` }}
             />
           </div>
           <p>Sump Tank</p>
-          <p>{sumpLevel} L</p>
+          <p>{sumpCapacity.toFixed(0)} L</p>
+          <p className="text-xs text-slate-400">{sumpWaterLevel} · {sumpPercentage}%</p>
+          <p className="text-xs font-bold mt-1">
+            Motor:{" "}
+            <span className={sumpMotorStatus === "ON" ? "text-green-400" : "text-slate-400"}>
+              {sumpMotorStatus}
+            </span>
+          </p>
         </div>
       </div>
     </div>

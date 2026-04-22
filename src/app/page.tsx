@@ -31,16 +31,16 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
-  const handleTogglePump = async (newValue: string) => {
+  const handleTogglePump = async (newValue: boolean) => {
     try {
-      const pumpRef = ref(database, "control/vfd_command");
-      await set(pumpRef, newValue);
+      await set(ref(database, "control/motor_on"), newValue);
+      await set(ref(database, "control/motor_off"), !newValue);
     } catch (error) {
       console.error("Error updating pump status:", error);
     }
   };
 
-  console.log("data", data)
+  console.log("data", data);
 
   if (!data) return <Spinner fullPage />;
 
@@ -96,21 +96,25 @@ export default function Home() {
           <div className="lg:col-span-7 flex flex-col h-full">
             <div className="w-full h-full flex justify-center lg:justify-start">
               <WaterSystemCard
-                communication={data.water_system.communication}
-                mainLevel={data.water_system.main_level}
-                sumpLevel={data.water_system.sump_level}
-                floatingSwitch={data.water_system.floating_switch}
-                signalStrength={data.water_system.signal_strength}
+                communicationStatus={data.communication.status}
+                signalStrength={data.communication.signal_strength}
+                mainCapacity={data.main_tank.capacity_l}
+                mainPercentage={data.main_tank.percentage}
+                mainFloat={data.main_tank.float}
+                mainWaterLevel={data.main_tank.water_level}
+                sumpCapacity={data.sump_tank.capacity_l}
+                sumpPercentage={data.sump_tank.percentage}
+                sumpWaterLevel={data.sump_tank.water_level}
+                sumpMotorStatus={data.sump_tank.motor_status}
               />
             </div>
-
           </div>
 
           {/* Side Monitoring Block - Right (Col 8-12) */}
           <div className="lg:col-span-5 flex flex-col gap-6 h-full">
             <div className="w-full flex-1 min-h-[220px]">
               <BatteryCard
-                soc={data.battery.soc}
+                voltage={data.battery.voltage}
                 chargingMode={data.battery.charging_mode}
                 current={data.battery.current}
               />
@@ -118,21 +122,16 @@ export default function Home() {
 
             <div className="w-full flex-1 min-h-[220px]">
               <WaterPumpCard
-                vfdCommand={data.control.vfd_command}
+                motorOn={data.control.motor_on}
+                motorOff={data.control.motor_off}
                 onToggle={handleTogglePump}
               />
             </div>
           </div>
 
-
-
-
         </div>
-
 
       </main>
     </div>
   );
 }
-
-

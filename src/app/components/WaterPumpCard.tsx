@@ -1,12 +1,14 @@
 "use client";
 
 interface Props {
-  vfdCommand: string;
-  onToggle: (newValue: string) => void;
+  motorOn: boolean;
+  motorOff: boolean;
+  onToggle: (newValue: boolean) => void;
 }
 
-export default function WaterPumpCard({ vfdCommand, onToggle }: Props) {
-  const isRunning = vfdCommand.toUpperCase() === "ON";
+export default function WaterPumpCard({ motorOn, motorOff, onToggle }: Props) {
+  // motor is running when motorOn is true OR motorOff is false
+  const isRunning = motorOn && !motorOff;
 
   return (
     <div className="pump-container">
@@ -31,7 +33,7 @@ export default function WaterPumpCard({ vfdCommand, onToggle }: Props) {
 
       <div className="flex flex-col">
         <p className={isRunning ? "pump-on font-bold" : "pump-off font-bold"}>
-          Status: {vfdCommand}
+          Status: {isRunning ? "ON" : "OFF"}
         </p>
 
         <div className="toggle-group mb-3">
@@ -40,7 +42,7 @@ export default function WaterPumpCard({ vfdCommand, onToggle }: Props) {
             <input
               type="checkbox"
               checked={isRunning}
-              onChange={(e) => onToggle(e.target.checked ? "ON" : "OFF")}
+              onChange={(e) => onToggle(e.target.checked)}
             />
             <span className="slider"></span>
           </label>

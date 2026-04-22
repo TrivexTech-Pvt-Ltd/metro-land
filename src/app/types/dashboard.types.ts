@@ -2,17 +2,30 @@ export interface DashboardData {
   battery: {
     charging_mode: string;
     current: number;
-    soc: number;
+    voltage: number;
+  };
+  communication: {
+    signal_strength: number;
+    status: string;
   };
   control: {
     firmware_update: boolean;
-    vfd_command: string;
+    motor_off: boolean;
+    motor_on: boolean;
   };
-  water_system: {
-    communication: string;
-    floating_switch: string;
-    main_level: number;
-    signal_strength: number;
-    sump_level: number;
+  main_tank: {
+    capacity_l: number;
+    distance_cm: number;
+    float: string;
+    percentage: number;
+    water_level: string;
+  };
+  sump_tank: {
+    capacity_l: number;
+    distance_cm: number;
+    float: string;
+    motor_status: string;
+    percentage: number;
+    water_level: string;
   };
 }
