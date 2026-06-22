@@ -11,6 +11,10 @@ interface Props {
   sumpPercentage: number;
   sumpWaterLevel: string;
   sumpMotorStatus: string;
+  mainUpdatedDate?: string;
+  mainUpdatedTime?: string;
+  sumpUpdatedDate?: string;
+  sumpUpdatedTime?: string;
 }
 
 export default function WaterSystemCard({
@@ -24,6 +28,10 @@ export default function WaterSystemCard({
   sumpPercentage,
   sumpWaterLevel,
   sumpMotorStatus,
+  mainUpdatedDate,
+  mainUpdatedTime,
+  sumpUpdatedDate,
+  sumpUpdatedTime,
 }: Props) {
   const isConnected = communicationStatus === "Connected";
   const isMainLow = mainFloat === "LOW";
@@ -41,39 +49,51 @@ export default function WaterSystemCard({
       </div>
 
       <div className="tank-row">
+        {/* SUMP TANK */}
+        <div className="tank-block">
+          <div className="tank-body small">
+            <div
+              className="tank-water"
+              style={{ height: "100%" }}
+            />
+          </div>
+          <p>Sump Tank</p>
+          {/* <p>{sumpCapacity.toFixed(0)} L</p> */}
+          {/* <p className="text-xs text-slate-400">{sumpWaterLevel} · {sumpPercentage}%</p> */}
+          <p className="text-xs text-slate-400">{sumpWaterLevel}</p>
+          {sumpUpdatedDate && sumpUpdatedTime && (
+            <p className="text-[10px] text-slate-400 mt-1 font-mono">
+             Last Updated: {sumpUpdatedDate} {sumpUpdatedTime}
+            </p>
+          )}
+          {/* <p className="text-xs font-bold mt-1">
+            Motor:{" "}
+            <span className={sumpMotorStatus === "ON" ? "text-green-400" : "text-slate-400"}>
+              {sumpMotorStatus}
+            </span>
+          </p> */}
+        </div>
+
         {/* MAIN TANK */}
         <div className="tank-block">
           <div className="tank-body large">
             <div
               className="tank-water"
-              style={{ height: `${mainPercentage}%` }}
+              style={{ height: "100%" }}
             />
             {isMainLow && (
               <div className="float-indicator">⚠ LOW</div>
             )}
           </div>
           <p>Main Tank</p>
-          <p>{mainCapacity.toFixed(0)} L</p>
-          <p className="text-xs text-slate-400">{mainWaterLevel} · {mainPercentage}%</p>
-        </div>
-
-        {/* SUMP TANK */}
-        <div className="tank-block">
-          <div className="tank-body small">
-            <div
-              className="tank-water"
-              style={{ height: `${sumpPercentage}%` }}
-            />
-          </div>
-          <p>Sump Tank</p>
-          <p>{sumpCapacity.toFixed(0)} L</p>
-          <p className="text-xs text-slate-400">{sumpWaterLevel} · {sumpPercentage}%</p>
-          <p className="text-xs font-bold mt-1">
-            Motor:{" "}
-            <span className={sumpMotorStatus === "ON" ? "text-green-400" : "text-slate-400"}>
-              {sumpMotorStatus}
-            </span>
-          </p>
+          {/* <p>{mainCapacity.toFixed(0)} L</p> */}
+          {/* <p className="text-xs text-slate-400">{mainWaterLevel} · {mainPercentage}%</p> */}
+          <p className="text-xs text-slate-400">{mainWaterLevel}</p>
+          {mainUpdatedDate && mainUpdatedTime && (
+            <p className="text-[10px] text-slate-400 mt-1 font-mono">
+              Last Updated: {mainUpdatedDate} {mainUpdatedTime}
+            </p>
+          )}
         </div>
       </div>
     </div>

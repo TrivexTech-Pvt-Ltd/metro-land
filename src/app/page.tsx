@@ -126,6 +126,10 @@ export default function Home() {
                 sumpPercentage={sumpPercentage}
                 sumpWaterLevel={data.Receiver.WaterLevel}
                 sumpMotorStatus={data.Receiver.MotorStatus.toUpperCase()}
+                mainUpdatedDate={data.transmitter.Date}
+                mainUpdatedTime={data.transmitter.Time}
+                sumpUpdatedDate={data.Receiver.Date}
+                sumpUpdatedTime={data.Receiver.Time}
               />
             </div>
           </div>
@@ -145,6 +149,7 @@ export default function Home() {
               <WaterPumpCard
                 motorOn={data.control.motor_on}
                 motorOff={data.control.motor_off}
+                sumpMotorStatus={data.Receiver.MotorStatus}
                 onToggle={handleTogglePump}
               />
             </div>

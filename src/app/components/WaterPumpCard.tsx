@@ -3,15 +3,23 @@
 interface Props {
   motorOn: boolean;
   motorOff: boolean;
+  sumpMotorStatus: string;
   onToggle: (motorOn: boolean, motorOff: boolean) => void;
 }
 
-export default function WaterPumpCard({ motorOn, motorOff, onToggle }: Props) {
-  // motor is running when motorOn is true AND motorOff is false
-  const isRunning = !!(motorOn && !motorOff);
+export default function WaterPumpCard({
+  motorOn,
+  motorOff,
+  sumpMotorStatus,
+  onToggle,
+}: Props) {
+  // motor is running when sumpMotorStatus is "ON" OR when manual control is set to ON
+  const isRunning =
+    sumpMotorStatus.toUpperCase() === "ON" || !!(motorOn && !motorOff);
 
   console.log("motorOn", motorOn);
   console.log("motorOff", motorOff);
+  console.log("sumpMotorStatus", sumpMotorStatus);
   console.log("isRunning", isRunning);
 
   return (
