@@ -31,13 +31,14 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
-  const handleTogglePump = async (motorOn: boolean, motorOff: boolean) => {
+  const handleTogglePump = async (control: {
+    firmware_update: boolean;
+    motor_off: boolean;
+    motor_on: boolean;
+  }) => {
     try {
       const dbRef = ref(database, "control");
-      await update(dbRef, {
-        motor_on: motorOn,
-        motor_off: motorOff,
-      });
+      await update(dbRef, control);
     } catch (error) {
       console.error("Error updating pump status:", error);
     }
@@ -147,8 +148,7 @@ export default function Home() {
 
             <div className="w-full flex-1 min-h-[220px]">
               <WaterPumpCard
-                motorOn={data.control.motor_on}
-                motorOff={data.control.motor_off}
+                control={data.control}
                 sumpMotorStatus={data.Receiver.MotorStatus}
                 onToggle={handleTogglePump}
               />

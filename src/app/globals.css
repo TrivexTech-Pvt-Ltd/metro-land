@@ -468,25 +468,19 @@ input:checked+.slider:before {
 
 .tank-row {
   display: flex;
-  gap: 80px;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  flex: 1;
+  margin-bottom: 20px;
 }
 
-/* Tank Block */
-.tank-block {
-  text-align: center;
-}
-
-/* Tank Body */
+/* Tank Body overrides/positioning */
 .tank-body {
   position: relative;
   border: 4px solid #94a3b8;
   border-radius: 16px;
   overflow: hidden;
   background: #1e293b;
-  margin: 0 auto 15px auto;
+  margin: 0; /* Let flex layout govern the positioning */
 }
 
 .tank-body.large {
@@ -497,6 +491,76 @@ input:checked+.slider:before {
 .tank-body.small {
   width: 110px;
   height: 220px;
+}
+
+/* Tank Connector Arrow Styling */
+.tank-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  z-index: 10;
+}
+
+.connector-arrow {
+  width: 100%;
+  height: 40px;
+  transition: all 0.3s ease;
+}
+
+.connector-arrow.active {
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
+}
+
+.arrow-flow {
+  animation: arrowFlow 0.8s linear infinite;
+}
+
+@keyframes arrowFlow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -14; /* 8 (dash) + 6 (gap) = 14 */
+  }
+}
+
+.connector-arrow.active .arrow-head {
+  animation: arrowPulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes arrowPulse {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 1;
+    stroke: #0ea5e9;
+  }
+}
+
+/* Tank Info styling */
+.tank-info-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.tank-info-block {
+  width: 150px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.info-spacer {
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.tank-label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
 }
 
 /* Water */
@@ -621,5 +685,28 @@ input:checked+.slider:before {
 
   50% {
     opacity: 1;
+  }
+}
+
+/* Responsive adjustments for water system card */
+@media (max-width: 520px) {
+  .tank-system-container {
+    padding: 20px;
+  }
+  .tank-body.large {
+    width: 110px;
+    height: 220px;
+  }
+  .tank-connector {
+    width: 40px;
+  }
+  .connector-arrow {
+    height: 28px;
+  }
+  .tank-info-block {
+    width: 110px;
+  }
+  .info-spacer {
+    width: 40px;
   }
 }
