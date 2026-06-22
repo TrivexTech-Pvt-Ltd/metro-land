@@ -47,7 +47,7 @@ export default function WaterSystemCard({
         <span className={isConnected ? "status-green ml-3" : "status-red ml-3"}>
           ● {communicationStatus}
         </span>
-        <span>📡 {signalStrength} dBm</span>
+        <span>📡 {signalStrength}</span>
       </div>
 
       <div className="tank-row">
