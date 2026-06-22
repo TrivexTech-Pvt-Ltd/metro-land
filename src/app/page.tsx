@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ref, onValue, set } from "firebase/database";
+import { ref, onValue, update } from "firebase/database";
 import { database } from "./lib/firebase";
 import { DashboardData } from "./types/dashboard.types";
 import BatteryCard from "./components/BatteryCard";
@@ -31,10 +31,13 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
-  const handleTogglePump = async (newValue: boolean) => {
+  const handleTogglePump = async (motorOn: boolean, motorOff: boolean) => {
     try {
-      await set(ref(database, "control/motor_on"), newValue);
-      await set(ref(database, "control/motor_off"), !newValue);
+      const dbRef = ref(database, "control");
+      await update(dbRef, {
+        motor_on: motorOn,
+        motor_off: motorOff,
+      });
     } catch (error) {
       console.error("Error updating pump status:", error);
     }
@@ -43,6 +46,15 @@ export default function Home() {
   console.log("data", data);
 
   if (!data) return <Spinner fullPage />;
+
+  // Calculate Main Tank Percentage assuming 5000L tank capacity
+  const mainPercentage = Math.round(Math.min(100, Math.max(0, (data.transmitter.WaterVolume / 5000) * 100)));
+  const mainFloat = data.transmitter.WaterLevel.toUpperCase() === "EMPTY" ? "LOW" : "NORMAL";
+
+  // Sump Tank calculations based on Receiver WaterLevel status ("NotEmpty" | "Empty")
+  const isSumpNotEmpty = data.Receiver.WaterLevel === "NotEmpty";
+  const sumpPercentage = isSumpNotEmpty ? 100 : 0;
+  const sumpCapacity = isSumpNotEmpty ? 2000 : 0; // Using 2000L capacity placeholder when water is present
 
   return (
     <div className="min-h-screen font-sans text-slate-900 overflow-x-hidden">
@@ -64,17 +76,21 @@ export default function Home() {
             <div className="flex items-center gap-3 px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-100">
               <div className="flex flex-col">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Firmware</span>
-                {data.control.firmware_update ? (
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] font-black text-green-600">UPDATE AVAILABLE</span>
-                    <span className="text-[9px] font-bold bg-green-100 text-green-700 px-1 rounded">V2.0.4</span>
-                  </div>
-                ) : (
-                  <span className="text-[11px] font-black text-slate-500 flex items-center gap-1">
-                    <span className="w-1 h-1 bg-green-500 rounded-full"></span>
-                    UP TO DATE
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-black text-slate-700 font-mono">
+                    {data.transmitter.FirmwareVersion || "N/A"}
                   </span>
-                )}
+                  {data.control.firmware_update ? (
+                    <span className="text-[9px] font-bold bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded animate-pulse">
+                      UPDATE AVAILABLE
+                    </span>
+                  ) : (
+                    <span className="text-[9px] font-bold bg-green-100 text-green-700 px-1.5 py-0.5 rounded flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                      LATEST
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -84,7 +100,11 @@ export default function Home() {
                 System Active
               </div>
               <span className="hidden sm:inline">•</span>
-              <div className="hidden sm:block w-28">{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</div>
+              <div className="hidden sm:flex items-center gap-2 font-mono tabular-nums">
+                <span>{currentTime.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                <span className="text-slate-300">|</span>
+                <span>{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+              </div>
             </div>
           </div>
         </header>
@@ -96,16 +116,16 @@ export default function Home() {
           <div className="lg:col-span-7 flex flex-col h-full">
             <div className="w-full h-full flex justify-center lg:justify-start">
               <WaterSystemCard
-                communicationStatus={data.communication.status}
-                signalStrength={data.communication.signal_strength}
-                mainCapacity={data.main_tank.capacity_l}
-                mainPercentage={data.main_tank.percentage}
-                mainFloat={data.main_tank.float}
-                mainWaterLevel={data.main_tank.water_level}
-                sumpCapacity={data.sump_tank.capacity_l}
-                sumpPercentage={data.sump_tank.percentage}
-                sumpWaterLevel={data.sump_tank.water_level}
-                sumpMotorStatus={data.sump_tank.motor_status}
+                communicationStatus={data.Receiver.TransmitterCommunication}
+                signalStrength={data.transmitter.NetworkStrength}
+                mainCapacity={data.transmitter.WaterVolume}
+                mainPercentage={mainPercentage}
+                mainFloat={mainFloat}
+                mainWaterLevel={data.transmitter.WaterLevel}
+                sumpCapacity={sumpCapacity}
+                sumpPercentage={sumpPercentage}
+                sumpWaterLevel={data.Receiver.WaterLevel}
+                sumpMotorStatus={data.Receiver.MotorStatus.toUpperCase()}
               />
             </div>
           </div>
@@ -114,9 +134,10 @@ export default function Home() {
           <div className="lg:col-span-5 flex flex-col gap-6 h-full">
             <div className="w-full flex-1 min-h-[220px]">
               <BatteryCard
-                voltage={data.battery.voltage}
-                chargingMode={data.battery.charging_mode}
-                current={data.battery.current}
+                voltage={data.transmitter.BatteryVoltage}
+                chargingMode={data.transmitter.BatteryChargingStatus}
+                current={data.transmitter.BatteryCurrent}
+                soc={data.transmitter.BatterySOC}
               />
             </div>
 

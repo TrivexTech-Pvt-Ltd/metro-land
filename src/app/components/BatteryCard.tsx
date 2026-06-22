@@ -4,28 +4,30 @@ interface Props {
   voltage: number;
   chargingMode: string;
   current: number;
+  soc: number;
 }
 
 export default function BatteryCard({
   voltage,
   chargingMode,
   current,
+  soc,
 }: Props) {
   const isCharging = chargingMode.toLowerCase() === "charging";
 
-  // Voltage range: 11.0V (empty) to 14.4V (full)
-  const MIN_V = 11.0;
-  const MAX_V = 14.4;
-  const fillPercent = Math.min(
-    100,
-    Math.max(0, ((voltage - MIN_V) / (MAX_V - MIN_V)) * 100)
-  );
+  // Use SOC directly for fillPercent
+  const fillPercent = Math.min(100, Math.max(0, soc));
 
   const getColor = () => {
     if (fillPercent > 70) return "green";
     if (fillPercent > 30) return "yellow";
     return "red";
   };
+
+  // Convert current from mA to A if current is a large value (typical mA reading from transmitter)
+  const isMilliamps = current > 2;
+  const currentVal = isMilliamps ? current / 1000 : current;
+  const formattedCurrent = isMilliamps ? currentVal.toFixed(3) : currentVal.toFixed(2);
 
   return (
     <div className="battery-container">
@@ -45,6 +47,7 @@ export default function BatteryCard({
       </div>
 
       <div className="battery-info">
+        <p><strong>State of Charge (SoC):</strong> {soc}%</p>
         <p><strong>Voltage:</strong> {voltage.toFixed(2)} V</p>
         <p>
           <strong>Status:</strong>{" "}
@@ -52,7 +55,7 @@ export default function BatteryCard({
             {chargingMode}
           </span>
         </p>
-        <p><strong>Current:</strong> {current} A</p>
+        <p><strong>Current:</strong> {formattedCurrent} A</p>
       </div>
     </div>
   );
