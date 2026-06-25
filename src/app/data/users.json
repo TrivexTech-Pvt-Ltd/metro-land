@@ -1,13 +1,13 @@
 [
   {
-    "username": "adminmetroland",
-    "password": "mtadmin@123",
+    "username": "AdminMetroLand",
+    "password": "MtAdmin@123",
     "role": "admin",
     "name": "Admin Operator"
   },
   {
-    "username": "usermetroland",
-    "password": "mtuser@123",
+    "username": "UserMetroLand",
+    "password": "MtUser@123",
     "role": "user",
     "name": "Standard Observer"
   }
