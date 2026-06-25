@@ -7,10 +7,21 @@ import BatteryCard from "./components/BatteryCard";
 import WaterPumpCard from "./components/WaterPumpCard";
 import WaterSystemCard from "./components/WaterSystemCard";
 import Spinner from "./components/Spinner";
+import { useAuth } from "./context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const { user, loading: authLoading, logout } = useAuth();
+  const router = useRouter();
   const [data, setData] = useState<DashboardData | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
+
+  // Protect dashboard - redirect if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.replace("/login");
+    }
+  }, [user, authLoading, router]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -36,6 +47,10 @@ export default function Home() {
     motor_off: boolean;
     motor_on: boolean;
   }) => {
+    if (user?.role !== "admin") {
+      console.warn("Unauthorized attempt to control pump");
+      return;
+    }
     try {
       const dbRef = ref(database, "control");
       await update(dbRef, control);
@@ -46,6 +61,7 @@ export default function Home() {
 
   console.log("data", data);
 
+  if (authLoading || !user) return <Spinner fullPage />;
   if (!data) return <Spinner fullPage />;
 
   // Calculate Main Tank Percentage assuming 5000L tank capacity
@@ -72,7 +88,18 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 md:gap-8">
+          <div className="flex flex-wrap items-center gap-4 md:gap-6">
+            {/* User Profile */}
+            <div className="flex items-center gap-3 px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-100 shadow-xs animate-fade-in">
+              <span className="text-xs font-bold text-slate-500">
+                Logged as <span className={`text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider ${
+                  user?.role === "admin" 
+                    ? "bg-sky-100 text-sky-700 border border-sky-200" 
+                    : "bg-slate-200 text-slate-600 border border-slate-300"
+                }`}>{user?.role}</span>
+              </span>
+            </div>
+
             {/* Firmware Status */}
             <div className="flex items-center gap-3 px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-100">
               <div className="flex flex-col">
@@ -95,6 +122,7 @@ export default function Home() {
               </div>
             </div>
 
+            {/* System Status & Time */}
             <div className="flex items-center gap-4 text-xs font-bold uppercase text-slate-400">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)] animate-pulse"></span>
@@ -107,6 +135,17 @@ export default function Home() {
                 <span>{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
               </div>
             </div>
+
+            {/* Logout Button */}
+            <button
+              onClick={logout}
+              className="flex items-center gap-2 px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 hover:text-rose-800 rounded-lg text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-xs cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-95"
+            >
+              <span>Logout</span>
+              <svg className="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+              </svg>
+            </button>
           </div>
         </header>
 
@@ -151,6 +190,7 @@ export default function Home() {
                 control={data.control}
                 sumpMotorStatus={data.Receiver.MotorStatus}
                 onToggle={handleTogglePump}
+                userRole={user?.role || "user"}
               />
             </div>
           </div>

@@ -1,0 +1,14 @@
+[
+  {
+    "username": "adminmetroland",
+    "password": "mtadmin@123",
+    "role": "admin",
+    "name": "Admin Operator"
+  },
+  {
+    "username": "usermetroland",
+    "password": "mtuser@123",
+    "role": "user",
+    "name": "Standard Observer"
+  }
+]
