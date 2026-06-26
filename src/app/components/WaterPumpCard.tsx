@@ -62,7 +62,7 @@ export default function WaterPumpCard({
   console.log("pendingStatus", pendingStatus);
 
   return (
-    <div className="pump-container">
+    <div className={`pump-container ${userRole === "user" ? "min-h-[320px]" : ""}`}>
       <div className="flex justify-between items-center">
         <h2>🚰 Water Pump</h2>
         <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${

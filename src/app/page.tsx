@@ -173,9 +173,9 @@ export default function Home() {
       category: "Transmitter",
       parameter: "Network Strength",
       value: data.transmitter.NetworkStrength,
-      unit: "dBm",
+      unit: "",
       type: "number",
-      description: "RSSI signal strength of the transmitter"
+      description: "Network Strength"
     },
     {
       path: "transmitter.FirmwareVersion",
@@ -284,11 +284,10 @@ export default function Home() {
   const renderValue = (row: DataRow) => {
     if (row.type === "boolean") {
       return (
-        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border transition-all duration-300 ${
-          row.value
+        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border transition-all duration-300 ${row.value
             ? "bg-emerald-50 text-emerald-700 border-emerald-200 shadow-xs"
             : "bg-slate-100 text-slate-500 border-slate-200"
-        }`}>
+          }`}>
           <span className={`w-1.5 h-1.5 rounded-full ${row.value ? "bg-emerald-500 animate-pulse" : "bg-slate-400"}`}></span>
           {row.value ? "TRUE" : "FALSE"}
         </span>
@@ -298,23 +297,22 @@ export default function Home() {
     if (row.type === "number") {
       const val = row.value as number;
       const unit = row.unit || "";
-      
+
       if (row.path === "transmitter.BatterySOC") {
         return (
           <div className="flex items-center gap-2">
             <span className="font-mono font-bold text-slate-700">{val}{unit}</span>
             <div className="w-16 h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200 hidden sm:block">
-              <div 
-                className={`h-full rounded-full transition-all duration-500 ${
-                  val > 50 ? "bg-green-500" : val > 20 ? "bg-amber-500" : "bg-rose-500"
-                }`} 
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${val > 50 ? "bg-green-500" : val > 20 ? "bg-amber-500" : "bg-rose-500"
+                  }`}
                 style={{ width: `${val}%` }}
               />
             </div>
           </div>
         );
       }
-      
+
       if (row.path === "transmitter.WaterVolume") {
         const pct = Math.round(Math.min(100, (val / 5000) * 100));
         return (
@@ -336,15 +334,14 @@ export default function Home() {
     }
 
     const strVal = String(row.value);
-    
+
     if (row.path === "Receiver.MotorStatus" || strVal.toUpperCase() === "ON" || strVal.toUpperCase() === "OFF") {
       const isOn = strVal.toUpperCase() === "ON";
       return (
-        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border transition-all duration-300 ${
-          isOn
+        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border transition-all duration-300 ${isOn
             ? "bg-green-50 text-green-700 border-green-200 shadow-xs"
             : "bg-rose-50 text-rose-700 border-rose-200 shadow-xs"
-        }`}>
+          }`}>
           <span className={`w-1.5 h-1.5 rounded-full ${isOn ? "bg-green-500 animate-pulse" : "bg-rose-500"}`}></span>
           {strVal.toUpperCase()}
         </span>
@@ -370,11 +367,10 @@ export default function Home() {
     if (row.path === "Receiver.TransmitterCommunication") {
       const isOk = strVal.toLowerCase() === "ok" || strVal.toUpperCase() === "CONNECTED";
       return (
-        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border transition-all duration-300 whitespace-nowrap ${
-          isOk 
-            ? "bg-green-50 text-green-700 border-green-200" 
+        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border transition-all duration-300 whitespace-nowrap ${isOk
+            ? "bg-green-50 text-green-700 border-green-200"
             : "bg-rose-50 text-rose-700 border-rose-200"
-        }`}>
+          }`}>
           {isOk ? "🟢 CONNECTED" : "🔴 DISCONNECTED"}
         </span>
       );
@@ -402,11 +398,10 @@ export default function Home() {
             {/* User Profile */}
             <div className="flex items-center gap-3 px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-100 shadow-xs animate-fade-in">
               <span className="text-xs font-bold text-slate-500">
-                Logged as <span className={`text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider ${
-                  user?.role === "admin" 
-                    ? "bg-sky-100 text-sky-700 border border-sky-200" 
+                Logged as <span className={`text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider ${user?.role === "admin"
+                    ? "bg-sky-100 text-sky-700 border border-sky-200"
                     : "bg-slate-200 text-slate-600 border border-slate-300"
-                }`}>{user?.role}</span>
+                  }`}>{user?.role}</span>
               </span>
             </div>
 
@@ -499,7 +494,7 @@ export default function Home() {
 
           {/* Side Monitoring Block - Right (Col 8-12) */}
           <div className="lg:col-span-5 flex flex-col gap-6 h-full">
-            <div className="w-full flex-1 min-h-[220px]">
+            <div className="w-full flex-1 min-h-[280px] lg:min-h-[220px]">
               <BatteryCard
                 voltage={data.transmitter.BatteryVoltage}
                 chargingMode={data.transmitter.BatteryChargingStatus}
@@ -508,7 +503,7 @@ export default function Home() {
               />
             </div>
 
-            <div className="w-full flex-1 min-h-[220px]">
+            <div className="w-full flex-1 min-h-[280px] lg:min-h-[220px]">
               <WaterPumpCard
                 control={data.control}
                 sumpMotorStatus={data.Receiver.MotorStatus}
@@ -524,11 +519,11 @@ export default function Home() {
         {isModalOpen && user?.role === "admin" && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/45 backdrop-blur-sm animate-fade-in">
             {/* Click outside to close */}
-            <div 
-              className="absolute inset-0 cursor-default" 
+            <div
+              className="absolute inset-0 cursor-default"
               onClick={() => setIsModalOpen(false)}
             />
-            
+
             {/* Modal Body */}
             <div className="relative w-full max-w-5xl max-h-[90vh] bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-2xl flex flex-col overflow-hidden animate-scale-up z-10">
               {/* Header */}
@@ -546,11 +541,11 @@ export default function Home() {
                     Real-time database payload and parameter values
                   </p>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   {/* Search Control */}
                   <div className="relative">
-                    <input 
+                    <input
                       type="text"
                       placeholder="Search parameters..."
                       value={searchTerm}
@@ -561,7 +556,7 @@ export default function Home() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     {searchTerm && (
-                      <button 
+                      <button
                         onClick={() => setSearchTerm("")}
                         className="absolute right-3 top-2 text-slate-400 hover:text-slate-600 font-black text-xs"
                       >
@@ -571,7 +566,7 @@ export default function Home() {
                   </div>
 
                   {/* Close Button */}
-                  <button 
+                  <button
                     onClick={() => setIsModalOpen(false)}
                     className="p-2 hover:bg-slate-200/60 text-slate-400 hover:text-slate-600 rounded-xl transition-all duration-200 cursor-pointer text-sm font-black flex items-center justify-center"
                     aria-label="Close modal"
@@ -597,8 +592,8 @@ export default function Home() {
                     <tbody className="divide-y divide-slate-100/60">
                       {filteredTableData.length > 0 ? (
                         filteredTableData.map((row) => (
-                          <tr 
-                            key={row.path} 
+                          <tr
+                            key={row.path}
                             className="group hover:bg-slate-50/40 transition-all duration-200 text-xs text-slate-600"
                           >
                             <td className="py-3.5 px-5 font-mono text-[11px] text-slate-400 group-hover:text-slate-700 transition-colors">
@@ -607,13 +602,12 @@ export default function Home() {
                               </span>
                             </td>
                             <td className="py-3.5 px-5">
-                              <span className={`inline-flex px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider border ${
-                                row.category === "Transmitter"
+                              <span className={`inline-flex px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider border ${row.category === "Transmitter"
                                   ? "bg-sky-50 text-sky-700 border-sky-100"
                                   : row.category === "Receiver"
-                                  ? "bg-violet-50 text-violet-700 border-violet-100"
-                                  : "bg-emerald-50 text-emerald-700 border-emerald-100"
-                              }`}>
+                                    ? "bg-violet-50 text-violet-700 border-violet-100"
+                                    : "bg-emerald-50 text-emerald-700 border-emerald-100"
+                                }`}>
                                 {row.category}
                               </span>
                             </td>

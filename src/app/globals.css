@@ -116,6 +116,13 @@ body {
   color: #ef4444;
 }
 
+.battery-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+
 /* Animations */
 @keyframes wave {
   0% {
@@ -480,7 +487,8 @@ input:checked+.slider:before {
   border-radius: 16px;
   overflow: hidden;
   background: #1e293b;
-  margin: 0; /* Let flex layout govern the positioning */
+  margin: 0;
+  /* Let flex layout govern the positioning */
 }
 
 .tank-body.large {
@@ -520,8 +528,10 @@ input:checked+.slider:before {
   from {
     stroke-dashoffset: 0;
   }
+
   to {
-    stroke-dashoffset: -14; /* 8 (dash) + 6 (gap) = 14 */
+    stroke-dashoffset: -14;
+    /* 8 (dash) + 6 (gap) = 14 */
   }
 }
 
@@ -533,6 +543,7 @@ input:checked+.slider:before {
   from {
     opacity: 0.8;
   }
+
   to {
     opacity: 1;
     stroke: #0ea5e9;
@@ -693,19 +704,29 @@ input:checked+.slider:before {
   .tank-system-container {
     padding: 20px;
   }
+
+  .battery-container,
+  .pump-container {
+    padding: 20px;
+  }
+
   .tank-body.large {
     width: 110px;
     height: 220px;
   }
+
   .tank-connector {
     width: 40px;
   }
+
   .connector-arrow {
     height: 28px;
   }
+
   .tank-info-block {
     width: 110px;
   }
+
   .info-spacer {
     width: 40px;
   }
@@ -716,6 +737,7 @@ input:checked+.slider:before {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -726,6 +748,7 @@ input:checked+.slider:before {
     transform: scale(0.96);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
