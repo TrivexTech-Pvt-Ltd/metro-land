@@ -68,7 +68,7 @@ export default function Home() {
     motor_off: boolean;
     motor_on: boolean;
   }) => {
-    if (user?.role !== "admin") {
+    if (user?.role !== "admin" && user?.role !== "user") {
       console.warn("Unauthorized attempt to control pump");
       return;
     }

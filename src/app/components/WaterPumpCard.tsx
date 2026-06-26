@@ -62,7 +62,7 @@ export default function WaterPumpCard({
   console.log("pendingStatus", pendingStatus);
 
   return (
-    <div className={`pump-container ${userRole === "user" ? "min-h-[320px]" : ""}`}>
+    <div className="pump-container">
       <div className="flex justify-between items-center">
         <h2>🚰 Water Pump</h2>
         <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${
@@ -88,7 +88,7 @@ export default function WaterPumpCard({
           </div>
         </div>
 
-        {userRole === "admin" && (
+        {(userRole === "admin" || userRole === "user") && (
           <div className="flex flex-col gap-2">
             {/* Dual button manual control */}
             <div className="flex flex-col gap-2 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
